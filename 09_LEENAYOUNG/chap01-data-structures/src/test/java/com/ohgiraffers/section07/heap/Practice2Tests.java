@@ -8,6 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.IOException;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,7 +44,7 @@ class Practice2Tests {
 
     static Stream<Arguments> provideSource() {
         return Stream.of(
-                arguments(input1, input1),
+                arguments(input1, output1),
                 arguments(input2, output2)
         );
     }
@@ -56,7 +57,7 @@ class Practice2Tests {
     @DisplayName("보석 도둑 테스트")
     @ParameterizedTest
     @MethodSource("provideSource")
-    void testSolution(String input, long output) {
+    void testSolution(String input, long output) throws IOException {
         long result = practice2.solution(input);
         Assertions.assertEquals(output, result);
     }

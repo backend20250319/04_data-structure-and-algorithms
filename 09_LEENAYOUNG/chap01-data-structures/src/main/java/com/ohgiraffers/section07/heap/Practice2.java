@@ -1,5 +1,10 @@
 package com.ohgiraffers.section07.heap;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.*;
+
 public class Practice2 {
 
     static class Jewelry implements Comparable<Jewelry> {
@@ -20,8 +25,47 @@ public class Practice2 {
         }
     }
 
-    public long solution(String input) {
+    public long solution(String input) throws IOException {
 
-        return 0;
+        BufferedReader br = new BufferedReader(new StringReader(input));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int M = Integer.parseInt(st.nextToken());
+        int N = Integer.parseInt(st.nextToken());
+
+        Jewelry[] jewelries = new Jewelry[M];
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
+            int weight = Integer.parseInt(st.nextToken());
+            int price = Integer.parseInt(st.nextToken());
+            jewelries[i] = new Jewelry(weight, price);
+        }
+
+        Arrays.sort(jewelries);
+
+        int[] bags = new int[N];
+        for (int i = 0; i < N; i++) {
+            bags[i] = Integer.parseInt(br.readLine());
+        }
+        Arrays.sort(bags);
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
+        long result = 0;
+        int j = 0;
+
+        for (int i = 0; i < N; i++) {
+            while(j < M) {
+                if(jewelries[j].weight > bags[i]) {
+                    break;
+                }
+                pq.add(jewelries[j++].price);
+            }
+
+            if(!pq.isEmpty()) {
+                result += pq.poll();
+            }
+        }
+
+        return result;
     }
 }
